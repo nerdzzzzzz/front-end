@@ -1,16 +1,21 @@
+import { colors } from "@/constants/theme";
+import { useColorScheme } from "@/hooks";
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 
 export default function TabLayout() {
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === "dark";
+
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#6C63FF",
-        tabBarInactiveTintColor: "#8E8E93",
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: isDark ? "#8E8E93" : "#8E8E93",
         tabBarStyle: {
-          backgroundColor: "#FFFFFF",
+          backgroundColor: isDark ? colors.dark.background : colors.light.background,
           borderTopWidth: 1,
-          borderTopColor: "#E5E5EA",
+          borderTopColor: isDark ? "#38383A" : "#E5E5EA",
         },
         headerShown: false,
       }}
