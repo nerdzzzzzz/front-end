@@ -93,7 +93,7 @@ export default function Button({
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: borderRadius.md,
+    borderRadius: borderRadius["2xl"],
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",

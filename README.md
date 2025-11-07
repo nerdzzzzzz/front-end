@@ -1,94 +1,50 @@
-# Nerdz App 🎓
+# Welcome to your Expo app 👋
 
-A social competition app for studying. Compete with friends and stay motivated together!
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-## 📱 About
+## Get started
 
-Nerdz is a mobile application that gamifies the studying experience by adding a social and competitive element. Create study groups, log your study sessions, compete on leaderboards, and keep each other accountable.
-
-## 🚀 Tech Stack
-
-- **React Native** - Cross-platform mobile development
-- **Expo** - Development platform and tools
-- **Expo Router** - File-based routing
-- **TypeScript** - Type safety
-
-## 🛠️ Getting Started
-
-### Prerequisites
-
-- Node.js (v18 or higher)
-- npm or yarn
-- Expo Go app (for mobile testing)
-
-### Installation
-
-1. Clone the repository
-
-   ```bash
-   git clone https://github.com/nerdzzzzzz/front-end.git
-   cd nerdz-app
-   ```
-
-2. Install dependencies
+1. Install dependencies
 
    ```bash
    npm install
    ```
 
-3. Start the development server
+2. Start the app
 
    ```bash
-   npm start
+   npx expo start
    ```
 
-4. Run on your device
-   - Scan the QR code with Expo Go (Android) or Camera app (iOS)
-   - Or press `a` for Android emulator or `i` for iOS simulator
+In the output, you'll find options to open the app in a
 
-## 📂 Project Structure
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
+You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+
+## Get a fresh project
+
+When you're ready, run:
+
+```bash
+npm run reset-project
 ```
-nerdz-app/
-├── app/              # App screens (file-based routing)
-├── assets/           # Images, fonts, and other static files
-├── types/            # TypeScript type definitions
-├── app.json          # Expo configuration
-└── package.json      # Project dependencies
-```
 
-## 🎯 Features (Planned)
+This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-- [ ] User authentication
-- [ ] Create and join study groups
-- [ ] Group leaderboards and rankings
-- [ ] Group chat
-- [ ] Pomodoro timer for study sessions
-- [ ] Submit proof after completing pomodoro to earn hours and XP
-- [ ] Personal statistics and progress tracking
-- [ ] Push notifications and reminders
+## Learn more
 
-### 🔮 Future Considerations
+To learn more about developing your project with Expo, look at the following resources:
 
-- [ ] Social feed of study activities
-- [ ] Streak system to maintain consistency
+- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
+- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
 
-## 🔧 Available Scripts
+## Join the community
 
-- `npm start` - Start the Expo development server
-- `npm run android` - Run on Android emulator
-- `npm run ios` - Run on iOS simulator
-- `npm run web` - Run in web browser
-- `npm run lint` - Run ESLint
+Join our community of developers creating universal apps.
 
-## 👥 Contributing
-
-This is a frontend-focused project. The backend will be developed separately.
-
-## 📄 License
-
-This project is private and proprietary.
-
-## 🤝 Team
-
-Developed by the Nerdz team.
+- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
+- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
