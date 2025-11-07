@@ -62,6 +62,7 @@ export const spacing = {
   xl: 32,
   "2xl": 48,
   "3xl": 64,
+  "4xl": 80,
 };
 
 /**
