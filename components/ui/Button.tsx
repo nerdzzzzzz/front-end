@@ -1,19 +1,23 @@
-import { borderRadius, colors, shadows, typography } from "@/constants/theme";
+import { borderRadius, colors, typography } from "@/constants/theme";
+import { useThemeColor } from "@/hooks";
 import React from "react";
 import {
-    ActivityIndicator,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    TouchableOpacityProps,
+  ActivityIndicator,
+  Animated,
+  Pressable,
+  PressableProps,
+  StyleSheet,
+  Text,
+  View
 } from "react-native";
 
-interface ButtonProps extends TouchableOpacityProps {
+interface ButtonProps extends PressableProps {
   title: string;
-  variant?: "primary" | "outline";
+  variant?: "primary" | "secondary";
   size?: "sm" | "md" | "lg";
   loading?: boolean;
   fullWidth?: boolean;
+  icon?: React.ReactNode;
 }
 
 export default function Button({
@@ -24,8 +28,26 @@ export default function Button({
   fullWidth = false,
   disabled,
   style,
+  icon,
   ...props
 }: ButtonProps) {
+  const scaleAnim = React.useRef(new Animated.Value(1)).current;
+  const { colors: themeColors } = useThemeColor();
+
+  const handlePressIn = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 0.97,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 1,
+      useNativeDriver: true,
+    }).start();
+  };
+
   const getVariantStyles = () => {
     switch (variant) {
       case "primary":
@@ -33,11 +55,10 @@ export default function Button({
           backgroundColor: colors.primary,
           borderWidth: 0,
         };
-      case "outline":
+      case "secondary":
         return {
-          backgroundColor: "transparent",
-          borderWidth: 1,
-          borderColor: colors.primary,
+          backgroundColor: themeColors.background === "#FFFFFF" ? "#F3F4F6" : "#374151",
+          borderWidth: 0,
         };
     }
   };
@@ -63,45 +84,61 @@ export default function Button({
   };
 
   const getTextColor = () => {
-    if (variant === "outline") {
-      return colors.primary;
+    if (variant === "secondary") {
+      return themeColors.text;
     }
     return "#FFFFFF";
   };
 
   return (
-    <TouchableOpacity
-      style={[
-        styles.button,
-        getVariantStyles(),
-        getSizeStyles(),
-        fullWidth && styles.fullWidth,
-        disabled && styles.disabled,
-        style,
-      ]}
-      disabled={disabled || loading}
-      {...props}
-    >
-      {loading ? (
-        <ActivityIndicator color={getTextColor()} />
-      ) : (
-        <Text style={[styles.text, { color: getTextColor() }]}>{title}</Text>
-      )}
-    </TouchableOpacity>
+    <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+      <Pressable
+        style={(state) => [
+          styles.button,
+          getVariantStyles(),
+          getSizeStyles(),
+          fullWidth && styles.fullWidth,
+          disabled && styles.disabled,
+          typeof style === "function" ? style(state) : style,
+        ]}
+        disabled={disabled || loading}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        {...props}
+      >
+        {loading ? (
+          <ActivityIndicator color={getTextColor()} />
+        ) : (
+          <View style={styles.buttonContent}>
+            {icon && <View style={styles.iconContainer}>{icon}</View>}
+            <Text style={[styles.text, { color: getTextColor() }]}>{title}</Text>
+          </View>
+        )}
+      </Pressable>
+    </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
     borderRadius: borderRadius["2xl"],
-    alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
-    ...shadows.sm,
+  },
+  buttonContent: {
+    flexDirection: "row",
+    gap: 8,
+    alignItems: "center",
+  },
+  iconContainer: {
+    width: 24,
+    alignItems: "center",
+    justifyContent: "center",
   },
   text: {
     fontSize: typography.fontSizes.base,
     fontWeight: typography.fontWeights.semibold,
+    textAlign: "left",
   },
   fullWidth: {
     width: "100%",
