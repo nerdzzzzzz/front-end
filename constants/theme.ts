@@ -14,7 +14,7 @@ export const colors = {
   },
 
   dark: {
-    background: "#1C1C1E",
+    background: "#0b0b0bff",
     text: "#FFFFFF",
   },
 };
@@ -24,6 +24,11 @@ export const colors = {
  */
 
 export const typography = {
+  fontFamily: {
+    system: "System",
+    default: "System",
+  },
+
   fontSizes: {
     xs: 12,
     sm: 14,
@@ -48,6 +53,12 @@ export const typography = {
     normal: 1.5,
     relaxed: 1.75,
   },
+
+  letterSpacing: {
+    tight: -0.5,
+    normal: 0,
+    wide: 0.5,
+  },
 };
 
 /**
@@ -63,6 +74,8 @@ export const spacing = {
   "2xl": 48,
   "3xl": 64,
   "4xl": 80,
+  "5xl": 96,
+  
 };
 
 /**
