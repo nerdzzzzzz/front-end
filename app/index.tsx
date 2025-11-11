@@ -28,7 +28,7 @@ export default function WelcomeScreen() {
   const handleLogin = () => {
     // TODO: Implement authentication
     setShowLoginModal(false);
-    router.replace("/(tabs)");
+    router.replace("/start");
   };
 
   return (
