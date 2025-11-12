@@ -10,6 +10,9 @@ export function useThemeColor() {
     colors: {
       background: isDark ? colors.dark.background : colors.light.background,
       text: isDark ? colors.dark.text : colors.light.text,
+      card: isDark ? colors.dark.card : colors.light.card,
+      cardSecondary: isDark ? colors.dark.cardSecondary : colors.light.cardSecondary,
+      separator: isDark ? colors.dark.separator : colors.light.separator,
       primary: colors.primary,
     },
   };

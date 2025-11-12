@@ -9,13 +9,19 @@ export const colors = {
 
   // Theme colors
   light: {
-    background: "#FFFFFF",
+    background: "#f8f8f8ff",
     text: "#000000",
+    card: "#ffffffff",
+    cardSecondary: "#3A3A3C",
+    separator: "#efefefff",
   },
 
   dark: {
     background: "#0b0b0bff",
     text: "#FFFFFF",
+    card: "#1d1d1dff",
+    cardSecondary: "#48484A",
+    separator: "#48484A",
   },
 };
 
@@ -42,6 +48,7 @@ export const typography = {
   },
 
   fontWeights: {
+    thin: "300" as const,
     regular: "400" as const,
     medium: "500" as const,
     semibold: "600" as const,
@@ -57,6 +64,7 @@ export const typography = {
   letterSpacing: {
     tight: -0.5,
     normal: 0,
+    md: 0.25,
     wide: 0.5,
   },
 };
