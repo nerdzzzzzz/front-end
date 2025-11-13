@@ -57,7 +57,7 @@ export default function Button({
         };
       case "secondary":
         return {
-          backgroundColor: themeColors.background === "#FFFFFF" ? "#F3F4F6" : "#374151",
+          backgroundColor: themeColors.card,
           borderWidth: 0,
         };
     }

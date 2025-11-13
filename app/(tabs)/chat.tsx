@@ -6,8 +6,8 @@ export default function ChatScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.title, { color: colors.text }]}>Chat</Text>
-      <Text style={styles.subtitle}>Messages coming soon 💬</Text>
+      <Text style={[styles.title, { color: colors.text }]}>Muito menos aqui</Text>
+      <Text style={styles.subtitle}>aaaaa</Text>
     </View>
   );
 }

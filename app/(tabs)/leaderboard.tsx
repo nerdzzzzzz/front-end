@@ -6,8 +6,8 @@ export default function LeaderboardScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.title, { color: colors.text }]}>Leaderboard</Text>
-      <Text style={styles.subtitle}>Rankings coming soon 🏆</Text>
+      <Text style={[styles.title, { color: colors.text }]}>Aqui também não</Text>
+      <Text style={styles.subtitle}>Sou foda dindindindin</Text>
     </View>
   );
 }
