@@ -9,7 +9,7 @@ export default function StartScreen() {
 
   const handleCreateGroup = () => {
     // TODO: Navigate to create group screen
-    router.replace("/(tabs)");
+    router.replace("/(tabs)/home");
   };
 
   const handleJoinCode = () => {

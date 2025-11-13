@@ -1,6 +1,6 @@
 import { colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks";
-import { Ionicons } from "@expo/vector-icons";
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Tabs } from "expo-router";
 
 export default function TabLayout() {
@@ -21,20 +21,20 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
           title: "Home",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={size} color={color} />
+            <MaterialCommunityIcons name="home-outline" size={size} color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="leaderboard"
+        name="rankings"
         options={{
-          title: "Leaderboard",
+          title: "Rankings",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="trophy" size={size} color={color} />
+            <MaterialCommunityIcons name="medal-outline" size={size} color={color} />
           ),
         }}
       />
@@ -43,7 +43,7 @@ export default function TabLayout() {
         options={{
           title: "Chat",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="chatbubbles" size={size} color={color} />
+            <MaterialCommunityIcons name="chat-outline" size={size} color={color} />
           ),
         }}
       />
