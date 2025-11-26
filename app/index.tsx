@@ -1,6 +1,7 @@
 import { Button } from "@/components";
 import { colors, spacing, typography } from "@/constants/theme";
 import { useThemeColor } from "@/hooks";
+import { useAuth } from "@/context/AuthContext";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -11,10 +12,12 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Alert,
 } from "react-native";
 
 export default function WelcomeScreen() {
   const { colors } = useThemeColor();
+  const { signIn } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   const handleGetStarted = () => {
@@ -23,6 +26,19 @@ export default function WelcomeScreen() {
 
   const handleCloseModal = () => {
     setShowLoginModal(false);
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const success = await signIn();
+      if (success) {
+        setShowLoginModal(false);
+        router.replace("/start");
+      }
+      // Se não foi sucesso (cancelado), apenas não faz nada
+    } catch (error) {
+      Alert.alert("Login Error", "Failed to sign in with Google");
+    }
   };
 
   const handleLogin = () => {
@@ -108,7 +124,7 @@ export default function WelcomeScreen() {
                   title="Google"
                   variant="secondary"
                   fullWidth
-                  onPress={handleLogin}
+                  onPress={handleGoogleLogin}
                   style={styles.loginButton}
                   icon={<Ionicons name="logo-google" size={20} color={colors.text} />}
                 />
