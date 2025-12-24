@@ -16,7 +16,6 @@ import {
 
 import React, { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import Input from "@/components/ui/Input";
 import { Form, FormItem, FormSection } from "@/components/nativewindui/Form";
 import { TextField } from "@/components/nativewindui/TextField";
 
@@ -97,7 +96,7 @@ export default function WelcomeScreen() {
               className="top-0 h-4/6 flex-1"
               onPress={() => setVisible(false)}
             ></Pressable>
-            <View className="absolute bottom-0 h-2/6 w-full gap-4 rounded-t-2xl bg-white p-6">
+            <View className="absolute bottom-0 h-2/6 w-full gap-4 rounded-t-2xl bg-card p-6">
               <Text variant={"title1"}>Continue com...</Text>
               <Button variant="secondary" onPress={handleAppleLogin}>
                 <Text>Apple</Text>
@@ -129,23 +128,33 @@ export default function WelcomeScreen() {
                 className="flex-1"
                 onPress={() => setShowEmailModal(false)}
               ></Pressable>
-              <View className="bg-white w-full rounded-t-2xl p-6 gap-4 border-t border-gray-200">
+              <View className="bg-background w-full rounded-t-2xl p-6 gap-4 border-t border-border pb-10">
                 <Text variant={"title1"}>Entrar com Email</Text>
-                <Input
-                  label="Email"
-                  placeholder="seu@email.com"
-                  value={email}
-                  onChangeText={setEmail}
-                  autoCapitalize="none"
-                  keyboardType="email-address"
-                />
-                <Input
-                  label="Senha"
-                  placeholder="********"
-                  value={pass}
-                  onChangeText={setPass}
-                  secureTextEntry
-                />
+                
+                <Form>
+                  <FormSection>
+                    <FormItem>
+                      <TextField
+                        label="Email"
+                        placeholder="seu@email.com"
+                        value={email}
+                        onChangeText={setEmail}
+                        autoCapitalize="none"
+                        keyboardType="email-address"
+                      />
+                    </FormItem>
+                    <FormItem>
+                      <TextField
+                        label="Senha"
+                        placeholder="********"
+                        value={pass}
+                        onChangeText={setPass}
+                        secureTextEntry
+                      />
+                    </FormItem>
+                  </FormSection>
+                </Form>
+
                 <Button size="lg" onPress={performLogin}>
                   <Text>Entrar</Text>
                 </Button>
@@ -168,7 +177,7 @@ export default function WelcomeScreen() {
                 className="flex-1"
                 onPress={() => setShowRegisterModal(false)}
               ></Pressable>
-              <View className="bg-background w-full h-3/4 rounded-t-2xl p-6 gap-4 border-t border-gray-200">
+              <View className="bg-background w-full h-3/4 rounded-t-2xl p-6 gap-4 border-t border-border">
                 <View className="flex-row justify-between items-center mb-2">
                   <Text variant={"title1"}>Criar conta</Text>
                   <Button

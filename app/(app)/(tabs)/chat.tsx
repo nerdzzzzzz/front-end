@@ -1,29 +1,11 @@
-
-import { StyleSheet, Text, View } from "react-native";
+import { Text } from "@/components/nativewindui/Text";
+import { View } from "react-native";
 
 export default function ChatScreen() {
-
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.title, { color: colors.text }]}>Muito menos aqui</Text>
-      <Text style={styles.subtitle}>aaaaa</Text>
+    <View className="flex-1 items-center justify-center bg-background">
+      <Text variant="largeTitle" className="font-bold mb-2">Muito menos aqui</Text>
+      <Text variant="title3" className="text-muted-foreground">aaaaa</Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 18,
-    color: "#8E8E93",
-  },
-});

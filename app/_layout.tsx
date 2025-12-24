@@ -38,6 +38,7 @@ function InitialLayout() {
           <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="(auth)/index" />
             <Stack.Screen name="(app)/start" />
+            <Stack.Screen name="(app)/(tabs)" />
           </Stack>
   )
 
