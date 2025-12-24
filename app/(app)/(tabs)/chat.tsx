@@ -1,12 +1,12 @@
-import { useThemeColor } from "@/hooks";
+
 import { StyleSheet, Text, View } from "react-native";
 
-export default function HomeScreen() {
-  const { colors } = useThemeColor();
+export default function ChatScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-        <Text style={[styles.title, { color: colors.text }]}>Ainda não mexi aqui</Text>
+      <Text style={[styles.title, { color: colors.text }]}>Muito menos aqui</Text>
+      <Text style={styles.subtitle}>aaaaa</Text>
     </View>
   );
 }

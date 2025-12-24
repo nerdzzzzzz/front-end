@@ -1,14 +1,63 @@
-import { Stack } from "expo-router";
-import { AuthProvider } from "../context/AuthContext";
+import { Stack, useRouter, useSegments } from "expo-router";
+import { AuthProvider, useAuth } from "../context/AuthContext";
+import "../global.css";
+import "expo-dev-client";
+import { StatusBar } from "expo-status-bar";
+import { ThemeProvider as NavThemeProvider } from "@react-navigation/native";
+import { NAV_THEME } from "@/theme";
+import { useColorScheme } from "@/lib/useColorScheme";
+import { useEffect } from "react";
+import { View, ActivityIndicator } from "react-native";
+
+function InitialLayout() {
+  const { user, loading } = useAuth();
+  const segments = useSegments();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (loading) return;
+
+    const inAuthGroup = segments[0] === "(auth)";
+
+    if (!user && !inAuthGroup) {
+      router.replace("/(auth)");
+    } else if (user && inAuthGroup) {
+      router.replace("/(app)/start");
+    }
+  }, [user, loading, segments, router]);
+
+  if (loading) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  return (
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(auth)/index" />
+            <Stack.Screen name="(app)/start" />
+          </Stack>
+  )
+
+}
 
 export default function RootLayout() {
+  const { colorScheme, isDarkColorScheme } = useColorScheme();
+
   return (
-    <AuthProvider>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" />
-        <Stack.Screen name="start" />
-        <Stack.Screen name="(tabs)" />
-      </Stack>
-    </AuthProvider>
+    <>
+      <StatusBar
+        key={`root-status-bar-${isDarkColorScheme ? "light" : "dark"}`}
+        style={isDarkColorScheme ? "light" : "dark"}
+      />
+
+      <NavThemeProvider value={NAV_THEME[colorScheme]}>
+        <AuthProvider>
+          <InitialLayout />
+        </AuthProvider>
+      </NavThemeProvider>
+    </>
   );
 }

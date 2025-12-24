@@ -6,7 +6,7 @@ import {
   onAuthStateChanged as firebaseOnAuthStateChanged,
   User
 } from 'firebase/auth';
-import { auth } from './firebase';
+import { auth } from './firebaseConfig';
 
 export type FirebaseUser = User;
 

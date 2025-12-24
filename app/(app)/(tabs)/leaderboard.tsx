@@ -1,13 +1,13 @@
-import { useThemeColor } from "@/hooks";
+
 import { StyleSheet, Text, View } from "react-native";
 
-export default function ChatScreen() {
-  const { colors } = useThemeColor();
+export default function LeaderboardScreen() {
+
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.title, { color: colors.text }]}>Muito menos aqui</Text>
-      <Text style={styles.subtitle}>aaaaa</Text>
+      <Text style={[styles.title, { color: colors.text }]}>Aqui também não</Text>
+      <Text style={styles.subtitle}>Sou foda dindindindin</Text>
     </View>
   );
 }

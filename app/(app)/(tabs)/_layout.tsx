@@ -1,10 +1,7 @@
-import { colors } from "@/constants/theme";
-import { useColorScheme } from "@/hooks";
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
 
   return (
@@ -23,7 +20,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "Index",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" size={size} color={color} />
           ),
