@@ -15,7 +15,7 @@ import {
 } from "react";
 
 interface AuthContextType {
-  user: AppUser | null;
+  user: User | null;
   loading: boolean;
   register: (email: string, pass: string, name: string) => Promise<void>;
   login: (email: string, pass: string) => Promise<void>;
@@ -24,26 +24,8 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
-// Converte usuário do Google para o formato unificado
-const mapGoogleUser = (googleUser: User): AppUser => ({
-  id: googleUser.user.id,
-  email: googleUser.user.email,
-  displayName: googleUser.user.name,
-  photoUrl: googleUser.user.photo,
-  provider: 'google',
-});
-
-// Converte usuário do Firebase para o formato unificado
-const mapFirebaseUser = (firebaseUser: FirebaseUser): AppUser => ({
-  id: firebaseUser.uid,
-  email: firebaseUser.email,
-  displayName: firebaseUser.displayName,
-  photoUrl: firebaseUser.photoURL,
-  provider: 'email',
-});
-
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<AppUser | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

@@ -13,6 +13,7 @@ export default function StartScreen() {
   const handleCreateGroup = () => {
     // TODO: Navigate to create group screen
     router.replace("/(app)/(tabs)/chat");
+        console.log("Navigate to join code");
   };
 
   const handleJoinCode = () => {
@@ -49,8 +50,10 @@ export default function StartScreen() {
       <View className="px-2 pt-12">
         <View className="overflow-hidden rounded-2xl bg-card">
           
-          <Pressable onPress={handleCreateGroup}>
-            <View className="flex-row items-center gap-4 p-6 active:bg-muted/10">
+          <Pressable 
+            onPress={handleCreateGroup}
+            className="flex-row items-center gap-4 p-6 active:bg-muted/10"
+          >
               <View className="h-12 w-12 items-center justify-center rounded-full bg-transparent">
                 <Ionicons name="add" size={24} color={colors.foreground} />
               </View>
@@ -63,13 +66,14 @@ export default function StartScreen() {
                 </Text>
               </View>
               <Ionicons name="chevron-forward" size={20} color={colors.grey} />
-            </View>
           </Pressable>
 
           <View className="mx-6 h-px bg-border" />
 
-          <Pressable onPress={handleJoinCode}>
-            <View className="flex-row items-center gap-4 p-6 active:bg-muted/10">
+          <Pressable 
+            onPress={handleJoinCode}
+            className="flex-row items-center gap-4 p-6 active:bg-muted/10"
+          >
               <View className="h-12 w-12 items-center justify-center rounded-full bg-transparent">
                 <Ionicons name="people" size={24} color={colors.foreground} />
               </View>
@@ -82,7 +86,6 @@ export default function StartScreen() {
                 </Text>
               </View>
               <Ionicons name="chevron-forward" size={20} color={colors.grey} />
-            </View>
           </Pressable>
         </View>
       </View>
