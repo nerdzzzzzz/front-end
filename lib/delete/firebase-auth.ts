@@ -1,4 +1,4 @@
-import { 
+{/*import { 
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
@@ -12,7 +12,6 @@ export type FirebaseUser = User;
 
 /**
  * Cadastra um novo usuário com email e senha
- */
 export const signUpWithEmail = async (email: string, password: string): Promise<FirebaseUser> => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -24,7 +23,7 @@ export const signUpWithEmail = async (email: string, password: string): Promise<
 
 /**
  * Faz login com email e senha
- */
+
 export const signInWithEmail = async (email: string, password: string): Promise<FirebaseUser> => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -36,7 +35,7 @@ export const signInWithEmail = async (email: string, password: string): Promise<
 
 /**
  * Envia email de recuperação de senha
- */
+
 export const sendPasswordReset = async (email: string): Promise<void> => {
   try {
     await sendPasswordResetEmail(auth, email);
@@ -47,7 +46,7 @@ export const sendPasswordReset = async (email: string): Promise<void> => {
 
 /**
  * Faz logout do Firebase Auth
- */
+
 export const signOutFirebase = async (): Promise<void> => {
   try {
     await signOut(auth);
@@ -59,21 +58,21 @@ export const signOutFirebase = async (): Promise<void> => {
 
 /**
  * Retorna o usuário atual do Firebase
- */
+
 export const getCurrentFirebaseUser = (): FirebaseUser | null => {
   return auth.currentUser;
 };
 
 /**
  * Observa mudanças no estado de autenticação
- */
+
 export const onAuthStateChanged = (callback: (user: FirebaseUser | null) => void) => {
   return firebaseOnAuthStateChanged(auth, callback);
 };
 
 /**
  * Trata erros de autenticação do Firebase e retorna mensagens amigáveis
- */
+
 const handleAuthError = (error: any): Error => {
   let message = 'An error occurred. Please try again.';
 
@@ -116,3 +115,4 @@ const handleAuthError = (error: any): Error => {
   (friendlyError as any).code = error.code;
   return friendlyError;
 };
+*/}

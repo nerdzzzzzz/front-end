@@ -1,9 +1,6 @@
 import { Button } from "@/components/nativewindui/Button";
-
 import { Text } from "@/components/nativewindui/Text";
-
 import { Link } from "expo-router";
-
 import {
   Modal,
   View,
@@ -13,11 +10,14 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import * as WebBrowser from "expo-web-browser";
+import * as Google from "expo-auth-session/providers/google";
 import { Form, FormItem, FormSection } from "@/components/nativewindui/Form";
 import { TextField } from "@/components/nativewindui/TextField";
+
+WebBrowser.maybeCompleteAuthSession();
 
 export default function WelcomeScreen() {
   const [visible, setVisible] = useState(false);
@@ -25,21 +25,45 @@ export default function WelcomeScreen() {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const [isAuth, setIsAuth] = useState(false);
 
   // Register states
   const [name, setName] = useState("");
   const [regPass, setRegPass] = useState("");
   const [regConfirmPass, setRegConfirmPass] = useState("");
 
-  const { login } = useAuth();
-  const { register } = useAuth();
+  const { login, register, googleLogin } = useAuth();
+
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId: process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID,
+    iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
+    webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
+  })
 
   const handleAppleLogin = () => {
     // TODO
   };
 
-  const handleGoogleLogin = () => {
-    // TODO
+  useEffect(() => {
+    if (response?.type === "success") {
+      const { id_token } = response.params;
+      handleGoogleLogin(id_token);
+    } else if (response?.type === "error") {
+      Alert.alert("Erro Google", "Falha na conexão com o Google.");
+    }
+  }, [response]);
+
+  const handleGoogleLogin = async (token: string | undefined) => {
+    if (!token) return;
+    setIsAuth(true);
+    try {
+      await googleLogin(token);
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Erro", "Falha ao autenticar no Firebase com o Google.")
+    } finally {
+      setIsAuth(false);
+    }
   };
 
   const performLogin = async () => {
@@ -98,10 +122,10 @@ export default function WelcomeScreen() {
             ></Pressable>
             <View className="absolute bottom-0 h-2/6 w-full gap-4 rounded-t-2xl bg-card p-6">
               <Text variant={"title1"}>Continue com...</Text>
-              <Button variant="secondary" onPress={handleAppleLogin}>
+              <Button disabled variant="secondary" onPress={handleAppleLogin}>
                 <Text>Apple</Text>
               </Button>
-              <Button variant="secondary" onPress={handleGoogleLogin}>
+              <Button variant="secondary" disabled={!request} onPress={() => promptAsync()}>
                 <Text>Google</Text>
               </Button>
               <Button variant="secondary" onPress={handleEmailLogin}>
