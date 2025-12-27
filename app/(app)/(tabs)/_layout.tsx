@@ -16,7 +16,7 @@ export default function TabLayout() {
           borderTopColor: colors.border,
         },
         tabBarIconStyle: {
-          marginTop: 10,
+          marginTop: 5,
         },
         headerShown: false,
       }}
@@ -34,7 +34,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="leaderboard"
         options={{
-          title: "Leaderboard",
+          title: "Ranking",
           tabBarShowLabel: false, // Hide label
           tabBarIcon: ({ color, size }) => (
             <Award size={size} color={color} />
@@ -42,9 +42,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="chat"
+        name="profile"
         options={{
-          title: "User",
+          title: "Profile",
           tabBarShowLabel: false, // Hide label
           tabBarIcon: ({ color, size }) => (
             <User size={size} color={color} />

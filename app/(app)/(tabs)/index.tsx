@@ -1,8 +1,14 @@
 import { Text } from "@/components/nativewindui/Text";
-import { Ionicons } from "@expo/vector-icons";
+import {
+  ArrowLeftRight,
+  Pause,
+  Play,
+  RotateCcw,
+  Settings,
+} from "lucide-react-native";
 import * as Haptics from "expo-haptics";
 import React, { useEffect, useState } from "react";
-import { Dimensions, Pressable, View } from "react-native";
+import { Dimensions, Pressable, TouchableOpacity, View } from "react-native";
 import Animated, {
   useAnimatedProps,
   useAnimatedStyle,
@@ -13,6 +19,8 @@ import Animated, {
 } from "react-native-reanimated";
 import Svg, { Circle } from "react-native-svg";
 import { useColorScheme } from "@/lib/useColorScheme";
+import { TIMER_MODES } from "@/constants/mockData";
+import { useRouter } from "expo-router";
 
 const { width } = Dimensions.get("window");
 const CIRCLE_SIZE = width * 0.75;
@@ -22,29 +30,25 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-const MODES = {
-  FOCUS: { time: 25 * 60, label: "Focus" },
-  SHORT_BREAK: { time: 5 * 60, label: "Break" },
-};
-
 export default function HomeScreen() {
   const { colors } = useColorScheme();
   const [isActive, setIsActive] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(MODES.FOCUS.time);
+  const [timeLeft, setTimeLeft] = useState(TIMER_MODES.FOCUS.time);
   const [mode, setMode] = useState<"FOCUS" | "SHORT_BREAK">("FOCUS");
+  const router = useRouter();
 
   const progress = useSharedValue(1);
   const scale = useSharedValue(1);
 
-  const currentModeConfig = MODES[mode];
+  const currentModeConfig = TIMER_MODES[mode];
 
   const toggleMode = React.useCallback(() => {
     const newMode = mode === "FOCUS" ? "SHORT_BREAK" : "FOCUS";
     setMode(newMode);
     setIsActive(false);
-    setTimeLeft(MODES[newMode].time);
+    setTimeLeft(TIMER_MODES[newMode].time);
     progress.value = withSpring(1);
-  }, [mode, setIsActive, setTimeLeft, progress]); // Dependencies for useCallback
+  }, [mode, setIsActive, setTimeLeft, progress]);
 
   useEffect(() => {
     let interval: number | null = null;
@@ -67,7 +71,7 @@ export default function HomeScreen() {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isActive, timeLeft, mode, progress, toggleMode, currentModeConfig.time]); // Add missing dependencies: mode, progress, toggleMode
+  }, [isActive, timeLeft, mode, progress, toggleMode, currentModeConfig.time]);
 
   const toggleTimer = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -96,12 +100,24 @@ export default function HomeScreen() {
     transform: [{ scale: scale.value }],
   }));
 
+  const handleSettingsPress = () => {
+    router.push("/(app)/settings");
+  };
+
   return (
     <View className="flex-1 bg-background">
+      <View className="absolute top-0 left-0 right-0 z-50 flex-row items-center justify-end px-4 py-3 pt-safe">
+        <TouchableOpacity
+          onPress={handleSettingsPress}
+          className="w-10 h-10 items-center justify-center rounded-xl bg-background/50 backdrop-blur-md"
+        >
+          <Settings size={24} color={colors.primary} />
+        </TouchableOpacity>
+      </View>
       <View className="flex-1 pt-safe px-6 justify-between">
         {/* Timer */}
         <View className="flex-1 items-center justify-center relative z-10">
-          <View className="relative items-center justify-center mb-20">
+          <View className="relative items-center justify-center mb-32">
             {/* Glow behind timer */}
             <View
               className="absolute w-[280] h-[280] bg-primary/20 rounded-full"
@@ -152,30 +168,30 @@ export default function HomeScreen() {
               onPress={resetTimer}
               className="h-14 w-14 items-center justify-center rounded-full border border-border/10 bg-card/50 active:scale-95 active:bg-card/10"
             >
-              <Ionicons name="stop" size={24} color={colors.foreground} />
+              <RotateCcw size={24} color={colors.foreground} />
             </Pressable>
 
             <Pressable
               onPress={toggleTimer}
               className="h-20 w-20 items-center justify-center rounded-full bg-primary shadow-lg shadow-primary/50 active:scale-95 active:bg-primary/90"
             >
-              <Ionicons
-                name={isActive ? "pause" : "play"}
-                size={36}
-                color={colors.primaryForeground}
-                style={{ marginLeft: isActive ? 0 : 4 }}
-              />
+              {isActive ? (
+                <Pause size={36} color={colors.primaryForeground} />
+              ) : (
+                <Play
+                  size={36}
+                  color={colors.primaryForeground}
+                  fill={colors.primaryForeground}
+                  style={{ marginLeft: 4 }}
+                />
+              )}
             </Pressable>
 
             <Pressable
               onPress={toggleMode}
               className="h-14 w-14 items-center justify-center rounded-full border border-border/10 bg-card/50 active:scale-95 active:bg-card/10"
             >
-              <Ionicons
-                name="swap-horizontal"
-                size={24}
-                color={colors.foreground}
-              />
+              <ArrowLeftRight size={24} color={colors.foreground} />
             </Pressable>
           </View>
         </View>
