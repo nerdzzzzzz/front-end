@@ -1,18 +1,16 @@
-import { Button } from "@/components/nativewindui/Button";
+
 import { Text } from "@/components/nativewindui/Text";
-import { useAuth } from "@/context/AuthContext";
 import { useColorScheme } from "@/lib/useColorScheme";
-import { Ionicons } from "@expo/vector-icons";
+import { ChevronRight, LogOut, Plus, Users } from "lucide-react-native";
 import { router } from "expo-router";
 import { Image, Pressable, View } from "react-native";
 
 export default function StartScreen() {
   const { colors } = useColorScheme();
-  const { logout } = useAuth();
 
   const handleCreateGroup = () => {
     // TODO: Navigate to create group screen
-    router.replace("/(app)/(tabs)/leaderboard");
+    router.replace("/(app)/(tabs)");
         console.log("Navigate to join code");
   };
 
@@ -23,12 +21,6 @@ export default function StartScreen() {
 
   return (
     <View className="flex-1 bg-background pt-24">
-      {/* Logout Button */}
-      <View className="absolute right-4 top-10 z-10">
-        <Button variant="plain" onPress={logout} className="p-2">
-            <Ionicons name="log-out-outline" size={24} color={colors.destructive} />
-        </Button>
-      </View>
 
       <View className="items-center pb-20">
         <Text variant="largeTitle" className="mb-1 font-bold tracking-tight">
@@ -55,7 +47,7 @@ export default function StartScreen() {
             className="flex-row items-center gap-4 p-6 active:bg-muted/10"
           >
               <View className="h-12 w-12 items-center justify-center rounded-full bg-transparent">
-                <Ionicons name="add" size={24} color={colors.foreground} />
+                <Plus size={24} color={colors.foreground} />
               </View>
               <View className="flex-1">
                 <Text variant="title3" className="mb-1 font-bold">
@@ -65,7 +57,7 @@ export default function StartScreen() {
                   Start something new and invite others to join.
                 </Text>
               </View>
-              <Ionicons name="chevron-forward" size={20} color={colors.grey} />
+              <ChevronRight size={20} color={colors.grey} />
           </Pressable>
 
           <View className="mx-6 h-px bg-border" />
@@ -75,7 +67,7 @@ export default function StartScreen() {
             className="flex-row items-center gap-4 p-6 active:bg-muted/10"
           >
               <View className="h-12 w-12 items-center justify-center rounded-full bg-transparent">
-                <Ionicons name="people" size={24} color={colors.foreground} />
+                <Users size={24} color={colors.foreground} />
               </View>
               <View className="flex-1">
                 <Text variant="title3" className="mb-1 font-bold">
@@ -85,7 +77,7 @@ export default function StartScreen() {
                   Join a private group you&apos;ve been invited to.
                 </Text>
               </View>
-              <Ionicons name="chevron-forward" size={20} color={colors.grey} />
+              <ChevronRight size={20} color={colors.grey} />
           </Pressable>
         </View>
       </View>

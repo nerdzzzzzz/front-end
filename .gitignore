@@ -49,3 +49,6 @@ app-example
 
 # vscode
 .vscode/
+
+# AI_INSTRUCTIONS
+AI_INSTRUCTIONS.md
