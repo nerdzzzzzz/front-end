@@ -1,20 +1,22 @@
-import { Ionicons } from "@expo/vector-icons";
+import { House, Award, User } from 'lucide-react-native';
 import { Tabs } from "expo-router";
 import { useColorScheme } from "@/lib/useColorScheme";
 
 export default function TabLayout() {
-  const { colors, colorScheme } = useColorScheme();
-  const isDark = colorScheme === "dark";
+  const { colors } = useColorScheme();
 
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: isDark ? "#8E8E93" : "#8E8E93",
+        tabBarInactiveTintColor: colors.grey,
         tabBarStyle: {
-          backgroundColor: colors.card,
+          backgroundColor: colors.background,
           borderTopWidth: 1,
           borderTopColor: colors.border,
+        },
+        tabBarIconStyle: {
+          marginTop: 10,
         },
         headerShown: false,
       }}
@@ -23,8 +25,9 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Home",
+          tabBarShowLabel: false, // Hide label
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={size} color={color} />
+            <House size={size} color={color} />
           ),
         }}
       />
@@ -32,17 +35,19 @@ export default function TabLayout() {
         name="leaderboard"
         options={{
           title: "Leaderboard",
+          tabBarShowLabel: false, // Hide label
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="trophy" size={size} color={color} />
+            <Award size={size} color={color} />
           ),
         }}
       />
       <Tabs.Screen
         name="chat"
         options={{
-          title: "Chat",
+          title: "User",
+          tabBarShowLabel: false, // Hide label
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="chatbubbles" size={size} color={color} />
+            <User size={size} color={color} />
           ),
         }}
       />

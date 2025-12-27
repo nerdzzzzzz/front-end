@@ -12,7 +12,7 @@ export default function StartScreen() {
 
   const handleCreateGroup = () => {
     // TODO: Navigate to create group screen
-    router.replace("/(app)/(tabs)/chat");
+    router.replace("/(app)/(tabs)/leaderboard");
         console.log("Navigate to join code");
   };
 
