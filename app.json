@@ -8,6 +8,7 @@
     "scheme": "nerdzapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "output": "static",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.nerdz.nerdz",
@@ -15,6 +16,7 @@
     },
     "android": {
       "package": "com.nerdz.nerdz",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE"
       },
@@ -23,7 +25,17 @@
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "bundler": "metro",
+      "display": "standalone",
+      "backgroundColor": "#ffffff",
+      "description": "App de competição de estudos",
+      "themeColor": "#000000",
+      "meta": {
+        "apple": {
+          "mobileWebAppCapable": "yes"
+        }
+      }
     },
     "plugins": [
       "expo-router",

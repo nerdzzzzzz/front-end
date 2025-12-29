@@ -10,10 +10,10 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import * as WebBrowser from "expo-web-browser";
-import * as Google from "expo-auth-session/providers/google";
+import { signInWithGoogle } from "@/lib/google-auth";
 import { Form, FormItem, FormSection } from "@/components/nativewindui/Form";
 import { TextField } from "@/components/nativewindui/TextField";
 
@@ -34,24 +34,25 @@ export default function WelcomeScreen() {
 
   const { login, register, googleLogin } = useAuth();
 
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId: process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID,
-    iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
-    webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
-  })
-
   const handleAppleLogin = () => {
     // TODO
   };
 
-  useEffect(() => {
-    if (response?.type === "success") {
-      const { id_token } = response.params;
-      handleGoogleLogin(id_token);
-    } else if (response?.type === "error") {
-      Alert.alert("Erro Google", "Falha na conexão com o Google.");
+  const onGoogleButtonPress = async () => {
+    try {
+      const userInfo = await signInWithGoogle();
+      const idToken = userInfo.data?.idToken;
+      if (idToken) {
+        await handleGoogleLogin(idToken);
+      } else {
+        Alert.alert("Erro", "Não foi possível obter o Token do Google.");
+      }
+    } catch (error: any) {
+      if (error.code !== "SIGN_IN_CANCELLED") {
+        Alert.alert("Erro Google", "Falha na conexão com o Google.");
+      }
     }
-  }, [response]);
+  };
 
   const handleGoogleLogin = async (token: string | undefined) => {
     if (!token) return;
@@ -125,7 +126,7 @@ export default function WelcomeScreen() {
               <Button disabled variant="secondary" onPress={handleAppleLogin}>
                 <Text>Apple</Text>
               </Button>
-              <Button variant="secondary" disabled={!request} onPress={() => promptAsync()}>
+              <Button variant="secondary" onPress={onGoogleButtonPress}>
                 <Text>Google</Text>
               </Button>
               <Button variant="secondary" onPress={handleEmailLogin}>
