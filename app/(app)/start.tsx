@@ -11,7 +11,7 @@ export default function StartScreen() {
   const handleCreateGroup = () => {
     // TODO: Navigate to create group screen
     router.replace("/(app)/(tabs)");
-        console.log("Navigate to join code");
+        console.log("Navigate to create group ");
   };
 
   const handleJoinCode = () => {
@@ -35,6 +35,7 @@ export default function StartScreen() {
         <Image
           source={require("@/assets/images/logo.png")}
           className="h-[280px] w-[280px]"
+          style={{ width: 280, height: 280 }}
           resizeMode="contain"
         />
       </View>

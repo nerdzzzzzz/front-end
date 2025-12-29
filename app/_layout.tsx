@@ -1,13 +1,17 @@
 import { Stack, useRouter, useSegments } from "expo-router";
 import { AuthProvider, useAuth } from "../context/AuthContext";
+import { TimerProvider } from "../context/TimerContext";
 import "../global.css";
 import "expo-dev-client";
 import { StatusBar } from "expo-status-bar";
 import { ThemeProvider as NavThemeProvider } from "@react-navigation/native";
 import { NAV_THEME } from "@/theme";
 import { useColorScheme } from "@/lib/useColorScheme";
+import { configureGoogleSignIn } from "@/lib/google-auth";
 import { useEffect } from "react";
 import { View, ActivityIndicator } from "react-native";
+
+configureGoogleSignIn();
 
 function InitialLayout() {
   const { user, loading } = useAuth();
@@ -56,7 +60,9 @@ export default function RootLayout() {
 
       <NavThemeProvider value={NAV_THEME[colorScheme]}>
         <AuthProvider>
-          <InitialLayout />
+          <TimerProvider>
+            <InitialLayout />
+          </TimerProvider>
         </AuthProvider>
       </NavThemeProvider>
     </>

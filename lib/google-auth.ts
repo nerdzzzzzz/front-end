@@ -1,4 +1,4 @@
-import { GoogleSignin, User } from '@react-native-google-signin/google-signin';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 const WEB_CLIENT_ID = process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID;
 const IOS_CLIENT_ID = process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID;
@@ -7,8 +7,8 @@ export const configureGoogleSignIn = () => {
   GoogleSignin.configure({
     webClientId: WEB_CLIENT_ID,
     iosClientId: IOS_CLIENT_ID,
-    offlineAccess: true, // acessar APIs do Google em nome do usuário
-    forceCodeForRefreshToken: true, // refresh token
+    offlineAccess: true,
+    forceCodeForRefreshToken: true,
     scopes: ['profile', 'email'],
   });
 };

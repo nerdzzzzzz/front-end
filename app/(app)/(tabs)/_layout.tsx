@@ -1,14 +1,19 @@
 import { House, Award, User } from 'lucide-react-native';
 import { Tabs } from "expo-router";
 import { useColorScheme } from "@/lib/useColorScheme";
+import { useTimer } from "@/context/TimerContext";
 
 export default function TabLayout() {
   const { colors } = useColorScheme();
+  const { mode } = useTimer();
+
+  const isBreak = mode === "SHORT_BREAK";
+  const activeColor = isBreak ? "#22c55e" : colors.primary;
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: colors.primary,
+        tabBarActiveTintColor: activeColor,
         tabBarInactiveTintColor: colors.grey,
         tabBarStyle: {
           backgroundColor: colors.background,

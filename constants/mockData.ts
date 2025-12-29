@@ -147,8 +147,6 @@ export const PROFILE_DATA = {
 };
 
 export const TIMER_MODES = {
-  FOCUS: { time: 25 * 60, label: "Focus" },
-  SHORT_BREAK: { time: 5 * 60, label: "Break" },
 };
 
 export const LEADERBOARD_CONFIG = {

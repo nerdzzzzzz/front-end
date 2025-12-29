@@ -19,8 +19,8 @@ import Animated, {
 } from "react-native-reanimated";
 import Svg, { Circle } from "react-native-svg";
 import { useColorScheme } from "@/lib/useColorScheme";
-import { TIMER_MODES } from "@/constants/mockData";
 import { useRouter } from "expo-router";
+import { useTimer } from "@/context/TimerContext";
 
 const { width } = Dimensions.get("window");
 const CIRCLE_SIZE = width * 0.75;
@@ -32,15 +32,51 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 export default function HomeScreen() {
   const { colors } = useColorScheme();
+  const { focusDuration, shortBreakDuration } = useTimer();
+  
+  const TIMER_MODES = React.useMemo(() => ({
+    FOCUS: { time: focusDuration, label: "Focus" },
+    SHORT_BREAK: { time: shortBreakDuration, label: "Break" },
+  }), [focusDuration, shortBreakDuration]);
+
   const [isActive, setIsActive] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(TIMER_MODES.FOCUS.time);
   const [mode, setMode] = useState<"FOCUS" | "SHORT_BREAK">("FOCUS");
+  const [timeLeft, setTimeLeft] = useState(TIMER_MODES.FOCUS.time);
+  
   const router = useRouter();
 
   const progress = useSharedValue(1);
   const scale = useSharedValue(1);
 
   const currentModeConfig = TIMER_MODES[mode];
+  
+    const isBreak = mode === "SHORT_BREAK";
+  
+  
+  
+    const prevTimeRef = React.useRef(currentModeConfig.time);
+  
+  
+  
+    // Update timeLeft when mode changes or settings change (and timer not active)
+  
+    useEffect(() => {
+  
+      if (prevTimeRef.current !== currentModeConfig.time) {
+  
+        prevTimeRef.current = currentModeConfig.time;
+  
+        if (!isActive) {
+  
+          setTimeLeft(currentModeConfig.time);
+  
+          progress.value = withSpring(1);
+  
+        }
+  
+      }
+  
+    }, [currentModeConfig.time, isActive, progress]);
 
   const toggleMode = React.useCallback(() => {
     const newMode = mode === "FOCUS" ? "SHORT_BREAK" : "FOCUS";
@@ -48,7 +84,7 @@ export default function HomeScreen() {
     setIsActive(false);
     setTimeLeft(TIMER_MODES[newMode].time);
     progress.value = withSpring(1);
-  }, [mode, setIsActive, setTimeLeft, progress]);
+  }, [mode, setIsActive, TIMER_MODES, progress]);
 
   useEffect(() => {
     let interval: number | null = null;
@@ -57,21 +93,25 @@ export default function HomeScreen() {
       interval = setInterval(() => {
         setTimeLeft((prev) => prev - 1);
       }, 1000);
-    } else if (timeLeft === 0) {
+    } else if (timeLeft === 0 && isActive) {
       setIsActive(false);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       toggleMode();
     }
 
     // Update progress ring
-    progress.value = withTiming(timeLeft / currentModeConfig.time, {
+    // Apply a small offset ONLY when active to give immediate visual feedback of movement
+    const targetProgress = timeLeft / currentModeConfig.time;
+    const displayProgress = isActive ? Math.max(0, targetProgress - 0.005) : targetProgress;
+
+    progress.value = withTiming(displayProgress, {
       duration: 1000,
     });
 
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isActive, timeLeft, mode, progress, toggleMode, currentModeConfig.time]);
+  }, [isActive, timeLeft, currentModeConfig.time, toggleMode, progress]);
 
   const toggleTimer = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -106,12 +146,23 @@ export default function HomeScreen() {
 
   return (
     <View className="flex-1 bg-background">
-      <View className="absolute top-0 left-0 right-0 z-50 flex-row items-center justify-end px-4 py-3 pt-safe">
+      <View className="absolute top-0 left-0 right-0 z-50 flex-row items-center justify-between px-4 py-3 pt-safe">
+        <View className="w-10" />
+        <View 
+          className="bg-primary/20 px-5 py-2 rounded-full shadow-sm shadow-primary/50"
+          style={isBreak ? { backgroundColor: "#22c55e33", shadowColor: "#22c55e" } : undefined}
+        >
+          <Text 
+            className="text-foreground text-sm font-bold tracking-[0.1em] uppercase"
+          >
+            {currentModeConfig.label}
+          </Text>
+        </View>
         <TouchableOpacity
           onPress={handleSettingsPress}
           className="w-10 h-10 items-center justify-center rounded-xl bg-background/50 backdrop-blur-md"
         >
-          <Settings size={24} color={colors.primary} />
+          <Settings size={24} color={isBreak ? "#22c55e" : colors.primary} />
         </TouchableOpacity>
       </View>
       <View className="flex-1 pt-safe px-6 justify-between">
@@ -121,7 +172,10 @@ export default function HomeScreen() {
             {/* Glow behind timer */}
             <View
               className="absolute w-[280] h-[280] bg-primary/20 rounded-full"
-              style={{ transform: [{ scale: 1.2 }] }}
+              style={[
+                { transform: [{ scale: 1.2 }] },
+                isBreak && { backgroundColor: "#22c55e33" }
+              ]}
             />
 
             <Svg width={CIRCLE_SIZE} height={CIRCLE_SIZE}>
@@ -139,7 +193,7 @@ export default function HomeScreen() {
                 cx={CIRCLE_SIZE / 2}
                 cy={CIRCLE_SIZE / 2}
                 r={RADIUS}
-                stroke={colors.primary} // Theme primary
+                stroke={isBreak ? "#22c55e" : colors.primary} // Theme primary or green
                 strokeWidth={STROKE_WIDTH}
                 fill="none"
                 strokeDasharray={CIRCUMFERENCE}
@@ -156,8 +210,15 @@ export default function HomeScreen() {
               <Text className="text-[5rem] font-bold text-foreground tracking-tighter leading-none">
                 {formatTime(timeLeft)}
               </Text>
-              <Text className="text-primary text-sm font-bold tracking-[0.2em] uppercase mt-2">
-                {isActive ? "Running" : "Paused"}
+              <Text 
+                className="text-primary text-sm font-bold tracking-[0.2em] uppercase mt-2"
+                style={isBreak ? { color: "#22c55e" } : undefined}
+              >
+                {isActive
+                  ? "Running"
+                  : timeLeft === currentModeConfig.time
+                    ? "Start"
+                    : "Paused"}
               </Text>
             </Animated.View>
           </View>
@@ -174,9 +235,14 @@ export default function HomeScreen() {
             <Pressable
               onPress={toggleTimer}
               className="h-20 w-20 items-center justify-center rounded-full bg-primary shadow-lg shadow-primary/50 active:scale-95 active:bg-primary/90"
+              style={isBreak ? { backgroundColor: "#22c55e", shadowColor: "#22c55e" } : undefined}
             >
               {isActive ? (
-                <Pause size={36} color={colors.primaryForeground} />
+                <Pause
+                  size={36}
+                  color={colors.primaryForeground}
+                  fill={colors.primaryForeground}
+                />
               ) : (
                 <Play
                   size={36}
